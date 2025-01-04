@@ -4,9 +4,11 @@
 #include <string.h>
 
 struct word {
-    int count;
+    int count; // how many we have.
     char buffer[15];
-} typedef word;
+};
+
+typedef struct word word;
 
 int main(void){
     char buffer[1024];
@@ -14,12 +16,15 @@ int main(void){
     stream = fopen("black.txt", "r");
     int count = fread(&buffer, sizeof(char), sizeof(buffer), stream);
     fclose(stream);
+    // we create an array or word structs, to store each word in. for calculations.
     word *array_words;
     array_words = (word*)malloc(count * sizeof(word));
     int j = 0;
+    // keep track of word count.
     int word_count = 0;
 
     for (int i = 0; i <= count; i++) {
+	// if we encounter, a ' ' store everything before it into a new instance of word.
         if (buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
             if (j < i) {
                 int difference = i - j;
