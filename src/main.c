@@ -27,6 +27,7 @@ int main(void) {
     // keep track of word count.
     size_t word_count = 0;
     size_t word_index = 1; // index for words when replacement.
+    char output_buf[4000] = "";
 
 
     for (size_t i = 0; i <= (size_t) count; i++) {
@@ -63,12 +64,38 @@ int main(void) {
             j = i + 1;  // move to the start of the next word
         }
     }
-
-    for (size_t i = 0; i < word_count; i++) {
-	if (array_words[i].replacement_num != 0){
-            printf("%ld instances of %s replacingment_num = %ld\n", array_words[i].count ,array_words[i].buffer, array_words[i].replacement_num);
+    j = 0;
+    char space[1] = " ";
+    for (size_t i = 0; i < (size_t) count; ++i){
+	if (buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
+            if (j < i) {
+		int string_comp_result = 1; // for strcomp
+                size_t difference = i - j;
+                char word_buf[difference + 1];
+                strncpy(word_buf, &buffer[j], difference); // difference is how many chars to copy over.
+		// null terminate word.
+                word_buf[difference] = '\0';
+		for (size_t d = 0; d < word_count; ++d){
+		    if (array_words[d].replacement_num != 0){
+			string_comp_result = strcmp(word_buf, array_words[d].buffer);
+			if (string_comp_result == 0){
+			    char buf[32] = {0};
+			    sprintf(buf, "%zu", array_words[d].replacement_num);
+			    strcat(buf, space);
+			    strcat(output_buf, buf);
+			}
+		    }
+		}
+		if (string_comp_result != 0){
+		    strcat(output_buf, word_buf);
+		    strcat(output_buf, space);
+		}
+	    }
+	    j = i + 1;  // move to the start of the next word
 	}
     }
+
+    printf("%s", output_buf);
 
     return 0;
 }
