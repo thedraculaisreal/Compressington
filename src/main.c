@@ -7,6 +7,7 @@
 
 struct word_copies {
     size_t count;  // how many we have.
+    size_t replacement_num;
     char buffer[12];
 };
 
@@ -25,6 +26,7 @@ int main(void) {
     size_t j = 0;
     // keep track of word count.
     size_t word_count = 0;
+    size_t word_index = 1; // index for words when replacement.
 
 
     for (size_t i = 0; i <= (size_t) count; i++) {
@@ -43,6 +45,10 @@ int main(void) {
 			string_comp_result = strcmp(word_buf, array_words[d].buffer);
 			if (string_comp_result == 0){
 			    array_words[d].count += 1;
+			    if (array_words[d].replacement_num == 0){
+				array_words[d].replacement_num = word_index;
+				word_index++;
+			    }
 			    break;
 			}
 		    }
@@ -50,6 +56,7 @@ int main(void) {
 		if (string_comp_result != 0){
 		    strncpy(array_words[word_count].buffer, word_buf, sizeof(array_words[word_count].buffer));
 		    array_words[word_count].count = 1;
+		    array_words[word_count].replacement_num = 0;
 		    word_count++;
 		}
             }
@@ -58,7 +65,9 @@ int main(void) {
     }
 
     for (size_t i = 0; i < word_count; i++) {
-        printf("%ld -> %s, ", array_words[i].count ,array_words[i].buffer);
+	if (array_words[i].replacement_num != 0){
+            printf("%ld instances of %s replacingment_num = %ld\n", array_words[i].count ,array_words[i].buffer, array_words[i].replacement_num);
+	}
     }
 
     return 0;
