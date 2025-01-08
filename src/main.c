@@ -4,7 +4,6 @@
 #include <string.h>
 
 
-
 struct word_copies {
     size_t count;  // how many we have.
     size_t replacement_num;
@@ -65,7 +64,7 @@ int main(void) {
         }
     }
     j = 0;
-    char space[1] = " ";
+    char space[2] = " \0";
     for (size_t i = 0; i < (size_t) count; ++i){
 	if (buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
             if (j < i) {
@@ -79,17 +78,12 @@ int main(void) {
 		    if (array_words[d].replacement_num != 0){
 			string_comp_result = strcmp(word_buf, array_words[d].buffer);
 			if (string_comp_result == 0){
-			    char buf[32] = {0};
-			    sprintf(buf, "%zu", array_words[d].replacement_num);
-			    strcat(buf, space);
-			    strcat(output_buf, buf);
+			    sprintf(word_buf, "%zu", array_words[d].replacement_num);
 			}
 		    }
 		}
-		if (string_comp_result != 0){
-		    strcat(output_buf, word_buf);
-		    strcat(output_buf, space);
-		}
+		strcat(output_buf, word_buf);
+		strcat(output_buf, space);
 	    }
 	    j = i + 1;  // move to the start of the next word
 	}
