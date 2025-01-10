@@ -1,0 +1,1 @@
+/home/schwarztoter/projects/coding/c/file_compresser/rust_version/target/debug/rust_version: /home/schwarztoter/projects/coding/c/file_compresser/rust_version/src/main.rs /home/schwarztoter/projects/coding/c/file_compresser/rust_version/src/word_stuff.rs

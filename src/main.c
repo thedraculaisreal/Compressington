@@ -89,7 +89,18 @@ int main(void) {
 	}
     }
 
-    printf("%s", output_buf);
+    FILE* file;
+    file = fopen("compressed.txt", "w");
+    if (file == NULL) {
+	printf("Failed to create compressed.txt");
+	return 1;
+	fclose(file);
+    }
+    else {
+	fprintf(file, output_buf);
+	fclose(file);
+    }
+
 
     return 0;
 }
